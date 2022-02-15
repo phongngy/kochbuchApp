@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kochbuchapp/classes/rezept.dart';
 import 'package:kochbuchapp/sharedWidgets/rezept_card.dart';
 import 'package:localstore/localstore.dart';
+import 'package:kochbuchapp/sharedWidgets/alert_dialog.dart';
 
 class Homepage extends StatefulWidget {
   final Localstore db;
@@ -61,12 +62,13 @@ class _HomepageState extends State<Homepage> {
               return GestureDetector(
                   onDoubleTap: () {
                     setState(() {
-                      dbrezeptliste[index].deleteRezept();
-                      //manuelles update der Rezept-Liste
-                      dbrezeptliste.removeAt(index);
-                      dbGetRezeptData();
+                      showDialog(
+                        context: context,
+                        builder: (context) =>
+                            DeleteAlertDialog(context, dbrezeptliste[index]),
+                        barrierDismissible: false,
+                      );
                     });
-                    print('deleted');
                   },
                   child: RezeptCard(context, dbrezeptliste[index]));
             }));

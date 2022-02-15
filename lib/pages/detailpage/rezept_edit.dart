@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:kochbuchapp/classes/rezept.dart';
 import 'package:kochbuchapp/pages/Navigation/navigatorpage.dart';
 import 'package:localstore/localstore.dart';
-import 'package:kochbuchapp/pages/Navigation/navigatorpage.dart';
 
 class RezeptEditPage extends StatefulWidget {
   Rezept rezept;
@@ -139,13 +138,19 @@ class _RezeptEditPageState extends State<RezeptEditPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
-                    onPressed: () async {
+                    onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        Rezeptgeaendert();
                         widget.db
                             .collection('alleRezepte')
                             .doc(widget.rezept.id)
-                            .set(widget.rezept.toMap());
+                            .set(Rezept(
+                                    name: nameCtrl.text,
+                                    dauer: int.parse(dauerCtrl.text),
+                                    bewertung: int.parse(bewertungCtrl.text),
+                                    zutaten:
+                                        zutatenListeErstellen(zutatenCtrl.text),
+                                    beschreibung: beschreibungCtrl.text)
+                                .toMap());
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
@@ -167,23 +172,5 @@ class _RezeptEditPageState extends State<RezeptEditPage> {
 
   List<String> zutatenListeErstellen(String zutaten) {
     return zutaten.replaceAll(' ', '').split(',');
-  }
-
-  void Rezeptgeaendert() {
-    if (nameCtrl.text != widget.rezept.name) {
-      widget.rezept.name = nameCtrl.text;
-    }
-    if (int.parse(dauerCtrl.text) != widget.rezept.dauer) {
-      widget.rezept.dauer = int.parse(dauerCtrl.text);
-    }
-    if (int.parse(bewertungCtrl.text) != widget.rezept.bewertung) {
-      widget.rezept.bewertung = int.parse(bewertungCtrl.text);
-    }
-    if (zutatenCtrl.text != widget.rezept.zutaten.toString()) {
-      widget.rezept.zutaten = zutatenListeErstellen(zutatenCtrl.text);
-    }
-    if (beschreibungCtrl.text != widget.rezept.beschreibung) {
-      widget.rezept.beschreibung = beschreibungCtrl.text;
-    }
   }
 }

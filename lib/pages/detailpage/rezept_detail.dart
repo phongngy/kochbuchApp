@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kochbuchapp/classes/rezept.dart';
+import 'package:kochbuchapp/sharedWidgets/alert_dialog.dart';
 import 'package:kochbuchapp/sharedWidgets/rezept_card.dart';
 import 'package:kochbuchapp/pages/detailpage/rezept_edit.dart';
 import 'package:kochbuchapp/getit/injector.dart';
@@ -14,21 +15,31 @@ class Rezeptdetail extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(_rezept.name),
-        //TODO: edit-Funktion oben
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RezeptEditPage(
-                      db: getItInjector<Localstore>(),
-                      rezept: _rezept,
-                    ),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => DeleteAlertDialog(context, _rezept),
+                barrierDismissible: false,
+              );
+            },
+            icon: const Icon(Icons.delete),
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RezeptEditPage(
+                    db: getItInjector<Localstore>(),
+                    rezept: _rezept,
                   ),
-                );
-              },
-              icon: const Icon(Icons.edit))
+                ),
+              );
+            },
+            icon: const Icon(Icons.edit),
+          ),
         ],
       ),
       body: Column(

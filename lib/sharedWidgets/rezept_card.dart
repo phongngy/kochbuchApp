@@ -38,9 +38,15 @@ Widget RezeptCard(BuildContext context, Rezept rezept) {
                         text: rezept.dauer.toString(),
                         style: TextStyle(fontSize: 15, color: Colors.black))),
                 const Text(' min'),
-                Row(
-                  children: RezeptBewertung(rezept.bewertung),
-                  mainAxisAlignment: MainAxisAlignment.end,
+                Flexible(
+                  flex: 1,
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: Row(
+                      children: RezeptBewertung(rezept.bewertung),
+                      mainAxisAlignment: MainAxisAlignment.end,
+                    ),
+                  ),
                 ),
               ],
             )
