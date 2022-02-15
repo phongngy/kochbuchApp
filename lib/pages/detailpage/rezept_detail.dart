@@ -67,6 +67,8 @@ class Rezeptdetail extends StatelessWidget {
             ],
           ),
           const Divider(thickness: 1.5),
+          zutatenListeUI(_rezept),
+          const Divider(thickness: 1.5),
           RichText(
               text: TextSpan(
                   text: 'Beschreibung',
@@ -78,5 +80,23 @@ class Rezeptdetail extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget zutatenListeUI(Rezept rezept) {
+    var uiList = <Widget>[];
+    int counter = 0;
+    for (var rezept in rezept.zutaten) {
+      // Add list item
+      counter++;
+      uiList.add(
+        Row(
+          children: [Text('$counter. '), Text(rezept)],
+        ),
+      );
+      // Add space between items
+      uiList.add(const SizedBox(height: 5.0));
+    }
+
+    return Column(children: uiList);
   }
 }
