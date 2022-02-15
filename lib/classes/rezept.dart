@@ -8,14 +8,14 @@ class Rezept {
   int dauer;
   int bewertung;
   List<String> zutaten;
-  String? beschreibung;
+  String beschreibung;
   Rezept({
     this.id,
     required this.name,
     required this.dauer,
     required this.bewertung,
     required this.zutaten,
-    this.beschreibung,
+    this.beschreibung = '',
   });
 
   Rezept copyWith({
@@ -91,12 +91,10 @@ extension ManipulateRezeptData on Rezept {
   void saveRezept() {
     final _db = getItInjector<Localstore>();
     _db.collection('alleRezepte').doc(id).set(toMap());
-    print('Rezept $name locally gesaved');
   }
 
   void deleteRezept() {
     final _db = getItInjector<Localstore>();
     _db.collection('alleRezepte').doc(id).delete();
-    print('Rezept $name locally deleted');
   }
 }

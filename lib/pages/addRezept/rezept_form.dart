@@ -4,7 +4,7 @@ import 'package:kochbuchapp/classes/rezept.dart';
 import 'package:kochbuchapp/pages/Navigation/navigatorpage.dart';
 
 class RezeptForm extends StatefulWidget {
-  RezeptForm({Key? key}) : super(key: key);
+  const RezeptForm({Key? key}) : super(key: key);
 
   @override
   State<RezeptForm> createState() => _RezeptFormState();

@@ -8,7 +8,7 @@ class RezeptEditPage extends StatefulWidget {
   Rezept rezept;
 
   Localstore db;
-  RezeptEditPage({required Rezept this.rezept, required this.db, Key? key})
+  RezeptEditPage({required this.rezept, required this.db, Key? key})
       : super(key: key);
 
   @override
@@ -38,7 +38,7 @@ class _RezeptEditPageState extends State<RezeptEditPage> {
         .toString()
         .replaceAll('[', '')
         .replaceAll(']', '');
-    beschreibungCtrl.text = widget.rezept.beschreibung ?? '';
+    beschreibungCtrl.text = widget.rezept.beschreibung;
 
     return Scaffold(
       appBar: AppBar(

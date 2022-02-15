@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kochbuchapp/classes/rezept.dart';
 import 'package:kochbuchapp/pages/Navigation/navigatorpage.dart';
 
+// ignore: non_constant_identifier_names
 Widget DeleteAlertDialog(BuildContext context, Rezept rezept) {
   return AlertDialog(
     title: const Text('Rezept loeschen?'),

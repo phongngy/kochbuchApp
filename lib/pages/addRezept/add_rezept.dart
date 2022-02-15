@@ -10,7 +10,7 @@ class AddRezept extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Rezept hinzufuegen'),
       ),
-      body: RezeptForm(),
+      body: const RezeptForm(),
     );
   }
 }

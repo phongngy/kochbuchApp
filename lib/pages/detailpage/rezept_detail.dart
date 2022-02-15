@@ -7,8 +7,8 @@ import 'package:kochbuchapp/getit/injector.dart';
 import 'package:localstore/localstore.dart';
 
 class Rezeptdetail extends StatelessWidget {
-  Rezept _rezept;
-  Rezeptdetail(Rezept this._rezept, {Key? key}) : super(key: key);
+  final Rezept _rezept;
+  const Rezeptdetail(this._rezept, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,18 +49,19 @@ class Rezeptdetail extends StatelessWidget {
               maxLines: 2,
               text: TextSpan(
                   text: _rezept.name,
-                  style: TextStyle(fontSize: 25, color: Colors.black))),
+                  style: const TextStyle(fontSize: 25, color: Colors.black))),
           Row(
             children: [
               const Icon(Icons.alarm),
               RichText(
                   text: TextSpan(
                       text: _rezept.dauer.toString(),
-                      style: TextStyle(fontSize: 15, color: Colors.black))),
+                      style:
+                          const TextStyle(fontSize: 15, color: Colors.black))),
               const Text(' min'),
               Expanded(
                 child: Row(
-                  children: RezeptBewertung(_rezept.bewertung),
+                  children: rezeptBewertung(_rezept.bewertung),
                   mainAxisAlignment: MainAxisAlignment.end,
                 ),
               ),
@@ -70,12 +71,19 @@ class Rezeptdetail extends StatelessWidget {
           zutatenListeUI(_rezept),
           const Divider(thickness: 1.5),
           RichText(
-              text: TextSpan(
+              text: const TextSpan(
                   text: 'Beschreibung',
                   style: TextStyle(fontSize: 25, color: Colors.black))),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(_rezept.beschreibung ?? 'Keine Beschreibung vorhanden'),
+          Flexible(
+            flex: 2,
+            child: SingleChildScrollView(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(_rezept.beschreibung.isEmpty
+                    ? 'Keine Beschreibung vorhanden'
+                    : _rezept.beschreibung),
+              ),
+            ),
           ),
         ],
       ),
@@ -86,17 +94,16 @@ class Rezeptdetail extends StatelessWidget {
     var uiList = <Widget>[];
     int counter = 0;
     for (var rezept in rezept.zutaten) {
-      // Add list item
       counter++;
       uiList.add(
         Row(
           children: [Text('$counter. '), Text(rezept)],
         ),
       );
-      // Add space between items
       uiList.add(const SizedBox(height: 5.0));
     }
 
-    return Column(children: uiList);
+    return Flexible(
+        flex: 3, child: SingleChildScrollView(child: Column(children: uiList)));
   }
 }

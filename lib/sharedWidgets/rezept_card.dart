@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kochbuchapp/classes/rezept.dart';
 import 'package:kochbuchapp/pages/detailpage/rezept_detail.dart';
 
+// ignore: non_constant_identifier_names
 Widget RezeptCard(BuildContext context, Rezept rezept) {
   return Card(
     child: InkWell(
@@ -27,7 +28,8 @@ Widget RezeptCard(BuildContext context, Rezept rezept) {
                     maxLines: 2,
                     text: TextSpan(
                         text: rezept.name,
-                        style: TextStyle(fontSize: 25, color: Colors.black))),
+                        style: const TextStyle(
+                            fontSize: 25, color: Colors.black))),
               ),
             ),
             Row(
@@ -36,14 +38,15 @@ Widget RezeptCard(BuildContext context, Rezept rezept) {
                 RichText(
                     text: TextSpan(
                         text: rezept.dauer.toString(),
-                        style: TextStyle(fontSize: 15, color: Colors.black))),
+                        style: const TextStyle(
+                            fontSize: 15, color: Colors.black))),
                 const Text(' min'),
                 Flexible(
                   flex: 1,
                   child: FittedBox(
                     fit: BoxFit.contain,
                     child: Row(
-                      children: RezeptBewertung(rezept.bewertung),
+                      children: rezeptBewertung(rezept.bewertung),
                       mainAxisAlignment: MainAxisAlignment.end,
                     ),
                   ),
@@ -55,7 +58,7 @@ Widget RezeptCard(BuildContext context, Rezept rezept) {
   );
 }
 
-List<Widget> RezeptBewertung(int bewertung) {
+List<Widget> rezeptBewertung(int bewertung) {
   final gefuellteSterne = List<Widget>.filled(5, Container());
 
   for (int i = 0; i < bewertung; i++) {

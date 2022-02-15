@@ -6,7 +6,7 @@ import 'package:kochbuchapp/sharedWidgets/alert_dialog.dart';
 
 class Homepage extends StatefulWidget {
   final Localstore db;
-  Homepage({required this.db, Key? key}) : super(key: key);
+  const Homepage({required this.db, Key? key}) : super(key: key);
 
   @override
   State<Homepage> createState() => _HomepageState();
@@ -39,16 +39,6 @@ class _HomepageState extends State<Homepage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Homepage'),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  setState(() {
-                    dbAddRezeptdata(testrezept);
-                    print('added');
-                  });
-                },
-                icon: const Icon(Icons.add)),
-          ],
         ),
         body: GridView.builder(
             shrinkWrap: true,
@@ -79,7 +69,6 @@ class _HomepageState extends State<Homepage> {
     if (documents != null) {
       dbrezeptliste =
           documents.entries.map((entry) => Rezept.fromMapEntry(entry)).toList();
-      print(dbrezeptliste);
       setState(() {});
     }
   }
