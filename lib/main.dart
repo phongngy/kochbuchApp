@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kochbuchapp/fixValues/apptheme.dart';
 
 import 'package:kochbuchapp/getit/injector.dart' as injector;
 import 'package:kochbuchapp/pages/Navigation/navigatorpage.dart';
@@ -18,8 +19,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.blue),
-      home: const Navigatorpage(),
+      theme: AppTheme.theme,
+      home: const SafeArea(child: Navigatorpage()),
     );
   }
 }

@@ -25,8 +25,13 @@ class _RezeptEditPageState extends State<RezeptEditPage> {
   var beschreibungCtrl = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    nameCtrl.dispose();
+    dauerCtrl.dispose();
+    bewertungCtrl.dispose();
+    zutatenCtrl.dispose();
+    beschreibungCtrl.dispose();
+    super.dispose();
   }
 
   @override
@@ -48,14 +53,85 @@ class _RezeptEditPageState extends State<RezeptEditPage> {
         key: _formKey,
         child: Center(
           child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
             child: Column(
               children: <Widget>[
                 SizedBox(
                   height: 40,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: TextFormField(
+                      textInputAction: TextInputAction.next,
+                      controller: nameCtrl,
+                      decoration: const InputDecoration(
+                        hintText: 'Rezeptname',
+                        contentPadding: EdgeInsets.all(8),
+                      ),
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Feld bitte ausfuellen';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 100,
+                        child: TextFormField(
+                          textInputAction: TextInputAction.next,
+                          controller: dauerCtrl,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          decoration: const InputDecoration(
+                            hintText: 'Dauer in min',
+                          ),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Feld bitte ausfuellen';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          textInputAction: TextInputAction.next,
+                          controller: bewertungCtrl,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          decoration: const InputDecoration(
+                            hintText: 'Rezept bewerten',
+                          ),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Feld bitte ausfuellen';
+                            }
+                            if (int.parse(value) > 5) {
+                              return 'Bewertung nur bis 5';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
                   child: TextFormField(
-                    controller: nameCtrl,
+                    textInputAction: TextInputAction.next,
+                    controller: zutatenCtrl,
                     decoration: const InputDecoration(
-                      hintText: 'Rezeptname',
+                      hintText: 'Zutaten mit ,-getrennt eingeben',
                     ),
                     validator: (String? value) {
                       if (value == null || value.isEmpty) {
@@ -65,74 +141,21 @@ class _RezeptEditPageState extends State<RezeptEditPage> {
                     },
                   ),
                 ),
-                Row(
-                  children: <Widget>[
-                    SizedBox(
-                      width: 100,
-                      child: TextFormField(
-                        controller: dauerCtrl,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                        decoration: const InputDecoration(
-                          hintText: 'Dauer in min',
-                        ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Feld bitte ausfuellen';
-                          }
-                          return null;
-                        },
-                      ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: TextFormField(
+                    controller: beschreibungCtrl,
+                    keyboardType: TextInputType.multiline,
+                    minLines: 3,
+                    maxLines: null,
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return null;
+                      }
+                    },
+                    decoration: const InputDecoration(
+                      hintText: 'Rezepbeschreibung',
                     ),
-                    Expanded(
-                      child: TextFormField(
-                        controller: bewertungCtrl,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                        decoration: const InputDecoration(
-                          hintText: 'Rezept bewerten',
-                        ),
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Feld bitte ausfuellen';
-                          }
-                          if (int.parse(value) > 5) {
-                            return 'Bewertung nur bis 5';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                TextFormField(
-                  controller: zutatenCtrl,
-                  decoration: const InputDecoration(
-                    hintText: 'Zutaten mit ,-getrennt eingeben',
-                  ),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Feld bitte ausfuellen';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: beschreibungCtrl,
-                  keyboardType: TextInputType.multiline,
-                  minLines: 3,
-                  maxLines: null,
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return null;
-                    }
-                  },
-                  decoration: const InputDecoration(
-                    hintText: 'Rezepbeschreibung',
                   ),
                 ),
                 Padding(
@@ -171,6 +194,6 @@ class _RezeptEditPageState extends State<RezeptEditPage> {
   }
 
   List<String> zutatenListeErstellen(String zutaten) {
-    return zutaten.replaceAll(' ', '').split(',');
+    return zutaten.split(',');
   }
 }

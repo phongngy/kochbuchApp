@@ -14,7 +14,11 @@ class MyBorderShape extends NotchedShape {
     return Path.combine(
       PathOperation.difference,
       Path()
-        ..addRRect(RRect.fromRectAndRadius(host, const Radius.circular(10)))
+        ..addRRect(RRect.fromRectAndCorners(
+          host,
+          topLeft: const Radius.circular(25),
+          topRight: const Radius.circular(25),
+        ))
         ..close(),
       Path()
         ..addOval(Rect.fromCenter(

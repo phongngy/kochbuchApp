@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kochbuchapp/classes/rezept.dart';
-import 'package:kochbuchapp/sharedWidgets/rezept_card.dart';
+import 'package:kochbuchapp/sharedDirectory/rezept_card.dart';
 import 'package:localstore/localstore.dart';
-import 'package:kochbuchapp/sharedWidgets/alert_dialog.dart';
+import 'package:kochbuchapp/sharedDirectory/alert_dialog.dart';
 
 class Homepage extends StatefulWidget {
   final Localstore db;
@@ -13,13 +13,6 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  Rezept testrezept = Rezept(
-      name: 'testrezept',
-      dauer: 15,
-      bewertung: 3,
-      zutaten: ['mehl', 'wasser'],
-      beschreibung: 'Nichts');
-
   List<Rezept> dbrezeptliste = [];
 
   @override
@@ -37,16 +30,18 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Homepage'),
-        ),
+      extendBody: true,
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxisScrolled) =>
+            [const SliverAppBar(title: Text('Rezeptliste'))],
         body: GridView.builder(
+            padding: const EdgeInsets.all(8),
             shrinkWrap: true,
             itemCount: dbrezeptliste.isEmpty ? 0 : dbrezeptliste.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              crossAxisSpacing: 5.0,
-              mainAxisSpacing: 5.0,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
             ),
             itemBuilder: (context, index) {
               return GestureDetector(
@@ -61,7 +56,9 @@ class _HomepageState extends State<Homepage> {
                     });
                   },
                   child: RezeptCard(context, dbrezeptliste[index]));
-            }));
+            }),
+      ),
+    );
   }
 
   Future<void> dbGetRezeptData() async {

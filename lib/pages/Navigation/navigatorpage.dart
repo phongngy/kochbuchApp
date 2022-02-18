@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kochbuchapp/fixValues/appcolors.dart';
 import 'package:kochbuchapp/pages/homepage/homepage.dart';
 import 'package:kochbuchapp/pages/random/random.dart';
 import 'package:kochbuchapp/pages/Navigation/navigation_border.dart';
@@ -15,16 +16,20 @@ class Navigatorpage extends StatefulWidget {
 
 class _NavigatorpageState extends State<Navigatorpage> {
   final PageController _pageController = PageController(initialPage: 0);
-
+  bool _startindex = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //TODO: hier notched background ändern
-        backgroundColor: Colors.red,
         body: PageView(
           controller: _pageController,
           onPageChanged: (newIndex) {
-            setState(() {});
+            setState(() {
+              if (newIndex == 0) {
+                _startindex = true;
+              } else {
+                _startindex = false;
+              }
+            });
           },
           children: [
             Homepage(
@@ -40,9 +45,9 @@ class _NavigatorpageState extends State<Navigatorpage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               IconButton(
+                  color: _startindex ? AppColor.secondary : AppColor.white,
                   icon: const Icon(
                     Icons.list_alt_rounded,
-                    color: Colors.redAccent,
                   ),
                   onPressed: () {
                     _pageController.animateToPage(0,
@@ -50,9 +55,9 @@ class _NavigatorpageState extends State<Navigatorpage> {
                         curve: Curves.ease);
                   }),
               IconButton(
+                color: !_startindex ? AppColor.secondary : AppColor.white,
                 icon: const Icon(
                   Icons.contact_support,
-                  color: Colors.redAccent,
                 ),
                 onPressed: () {
                   _pageController.animateToPage(1,
