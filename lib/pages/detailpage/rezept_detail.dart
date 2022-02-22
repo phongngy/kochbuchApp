@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kochbuchapp/classes/rezept.dart';
 import 'package:kochbuchapp/fixValues/appcolors.dart';
+import 'package:kochbuchapp/pages/detailpage/rezept_beschreibung.dart';
+import 'package:kochbuchapp/pages/detailpage/zutaten_liste.dart';
 import 'package:kochbuchapp/sharedDirectory/alert_dialog.dart';
-import 'package:kochbuchapp/sharedDirectory/glow_card.dart';
 import 'package:kochbuchapp/sharedDirectory/rezept_card.dart';
 import 'package:kochbuchapp/pages/detailpage/rezept_edit.dart';
 import 'package:kochbuchapp/getit/injector.dart';
@@ -46,34 +47,22 @@ class Rezeptdetail extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Row(
-            children: [
-              SizedBox(
-                height: 175,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      right: 32, left: 24, top: 8, bottom: 8),
-                  child: RotatedBox(
-                    quarterTurns: 3,
-                    child: RichText(
-                        maxLines: 3,
-                        text: TextSpan(
-                            text: _rezept.name,
-                            style: const TextStyle(
-                                fontSize: 25, color: AppColor.secondary))),
-                  ),
-                ),
-              ),
-              Expanded(
-                  child: Container(
-                height: 175,
-                decoration: const BoxDecoration(
-                    color: AppColor.primary,
-                    borderRadius:
-                        BorderRadius.only(bottomLeft: Radius.circular(64))),
-              ))
-            ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  color: AppColor.primary),
+              height: 200,
+              width: double.infinity,
+            ),
           ),
+          RichText(
+              maxLines: 3,
+              text: TextSpan(
+                  text: _rezept.name,
+                  style: const TextStyle(
+                      fontSize: 25, color: AppColor.secondary))),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -97,77 +86,36 @@ class Rezeptdetail extends StatelessWidget {
               ],
             ),
           ),
-          const Divider(
-            color: AppColor.secondary,
-            thickness: 1,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: RichText(
-                text: const TextSpan(
-                    text: 'Zutaten',
-                    style: TextStyle(fontSize: 25, color: Colors.black))),
-          ),
-          zutatenListeUI(_rezept),
-          const Padding(
-            padding: EdgeInsets.only(top: 8.0),
-            child: Divider(
-              color: AppColor.secondary,
-              thickness: 1,
-              indent: 32,
-              endIndent: 32,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: RichText(
-                text: const TextSpan(
-                    text: 'Beschreibung',
-                    style: TextStyle(fontSize: 25, color: Colors.black))),
-          ),
-          Flexible(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: GlowCard(
-                color: AppColor.primary,
-                child: SingleChildScrollView(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(_rezept.beschreibung.isEmpty
-                        ? 'Keine Beschreibung vorhanden'
-                        : _rezept.beschreibung),
-                  ),
+          DefaultTabController(
+              length: 2,
+              child: Expanded(
+                child: Column(
+                  children: [
+                    const TabBar(
+                      indicatorColor: AppColor.secondary,
+                      tabs: <Widget>[
+                        Tab(
+                          child: Text('Zutaten'),
+                        ),
+                        Tab(
+                          child: Text('Beschreibung'),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TabBarView(children: [
+                          zutatenListeUI(_rezept),
+                          beschreibung(_rezept),
+                        ]),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-          ),
+              )),
         ],
       ),
     );
-  }
-
-  Widget zutatenListeUI(Rezept rezept) {
-    var uiList = <Widget>[];
-    int counter = 0;
-    for (var rezept in rezept.zutaten) {
-      counter++;
-      uiList.add(
-        Row(
-          children: [
-            Text(
-              '$counter. $rezept',
-              style: const TextStyle(fontSize: 14),
-            )
-          ],
-        ),
-      );
-      uiList.add(const SizedBox(height: 5.0));
-    }
-
-    return Flexible(
-        flex: 2,
-        child:
-            GlowCard(color: AppColor.primary, child: Column(children: uiList)));
   }
 }

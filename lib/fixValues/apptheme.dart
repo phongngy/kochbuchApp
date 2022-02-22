@@ -67,5 +67,6 @@ class AppTheme {
         borderRadius: BorderRadius.circular(25),
       ),
     ),
+    dividerColor: AppColor.secondary,
   );
 }
