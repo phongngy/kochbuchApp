@@ -25,55 +25,64 @@ Widget RezeptCard(BuildContext context, Rezept rezept) {
             MaterialPageRoute(builder: (context) => Rezeptdetail(rezept)),
           );
         },
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              //TODO: Bild statt platzhalter
-              SizedBox(
-                child: Container(color: Colors.red),
+        child: Stack(
+          alignment: AlignmentDirectional.bottomCenter,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+              //TODO: Bild einfügen statt platzhalter
+              child: Container(
+                color: Colors.red,
+                height: double.infinity,
                 width: double.infinity,
-                height: 100,
               ),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: RichText(
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      text: TextSpan(
-                          text: rezept.name,
-                          style: const TextStyle(
-                              fontSize: 25, color: Colors.black))),
-                ),
+            ),
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(25),
+                  bottomRight: Radius.circular(25)),
+              child: Container(
+                height: 64,
+                width: double.infinity,
+                color: Colors.black.withOpacity(0.2),
               ),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.alarm,
-                    color: AppColor.primary,
-                  ),
-                  RichText(
-                      text: TextSpan(
-                          text: rezept.dauer.toString(),
-                          style: const TextStyle(
-                              fontSize: 15, color: Colors.black))),
-                  const Text(' min'),
-                  Flexible(
-                    flex: 1,
-                    child: FittedBox(
-                      fit: BoxFit.contain,
-                      child: Row(
-                        children: rezeptBewertung(rezept.bewertung),
-                        mainAxisAlignment: MainAxisAlignment.end,
-                      ),
+            ),
+            Positioned(
+              bottom: 24,
+              child: RichText(
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  text: TextSpan(
+                      text: rezept.name,
+                      style: const TextStyle(
+                          fontSize: 25, color: AppColor.white))),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.alarm,
+                      color: AppColor.primary,
                     ),
-                  ),
-                ],
-              )
-            ],
-          ),
+                    RichText(
+                        text: TextSpan(
+                            text: rezept.dauer.toString(),
+                            style: const TextStyle(
+                                fontSize: 15, color: AppColor.white))),
+                    const Text(
+                      ' min',
+                      style: TextStyle(color: AppColor.white),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: rezeptBewertung(rezept.bewertung),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     ),

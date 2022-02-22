@@ -35,6 +35,7 @@ class _HomepageState extends State<Homepage> {
         headerSliverBuilder: (context, innerBoxisScrolled) =>
             [const SliverAppBar(title: Text('Rezeptliste'))],
         body: ListView.builder(
+            padding: const EdgeInsets.all(8),
             shrinkWrap: true,
             itemCount: dbrezeptliste.isEmpty ? 0 : dbrezeptliste.length,
             itemBuilder: (context, index) {
