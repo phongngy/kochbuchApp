@@ -8,6 +8,7 @@ import 'package:kochbuchapp/pages/detailpage/rezept_detail.dart';
 // ignore: non_constant_identifier_names
 Widget RezeptCard(BuildContext context, Rezept rezept) {
   return Container(
+    height: 200,
     decoration: BoxDecoration(boxShadow: [
       BoxShadow(
           color: Colors.black12,

@@ -16,12 +16,16 @@ class AppTheme {
     appBarTheme: const AppBarTheme(
       centerTitle: true,
       color: AppColor.primary,
-      elevation: 4,
+      elevation: 0,
       titleTextStyle: TextStyle(
         color: AppColor.white,
         fontWeight: FontWeight.bold,
         fontSize: 24,
       ),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(15),
+              bottomRight: Radius.circular(15))),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,

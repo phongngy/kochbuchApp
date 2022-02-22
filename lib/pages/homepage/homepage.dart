@@ -34,15 +34,9 @@ class _HomepageState extends State<Homepage> {
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxisScrolled) =>
             [const SliverAppBar(title: Text('Rezeptliste'))],
-        body: GridView.builder(
-            padding: const EdgeInsets.all(8),
+        body: ListView.builder(
             shrinkWrap: true,
             itemCount: dbrezeptliste.isEmpty ? 0 : dbrezeptliste.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
-            ),
             itemBuilder: (context, index) {
               return GestureDetector(
                   onDoubleTap: () {
