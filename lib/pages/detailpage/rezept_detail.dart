@@ -52,9 +52,10 @@ class Rezeptdetail extends StatelessWidget {
             child: Container(
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(20)),
-                  color: AppColor.primary),
-              height: 200,
+                  color: AppColor.secondary),
+              child: _rezept.showImage(),
               width: double.infinity,
+              height: 200,
             ),
           ),
           RichText(

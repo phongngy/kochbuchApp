@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -31,11 +32,7 @@ Widget RezeptCard(BuildContext context, Rezept rezept) {
             ClipRRect(
               borderRadius: BorderRadius.circular(25),
               //TODO: Bild einfügen statt platzhalter
-              child: Container(
-                color: Colors.red,
-                height: double.infinity,
-                width: double.infinity,
-              ),
+              child: rezept.showImage(),
             ),
             ClipRRect(
               borderRadius: const BorderRadius.only(

@@ -1,6 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kochbuchapp/classes/rezept.dart';
+import 'package:kochbuchapp/fixValues/appcolors.dart';
+import 'package:kochbuchapp/getit/injector.dart';
 import 'package:kochbuchapp/pages/Navigation/navigatorpage.dart';
 import 'package:localstore/localstore.dart';
 
@@ -23,6 +29,8 @@ class _RezeptEditPageState extends State<RezeptEditPage> {
   var bewertungCtrl = TextEditingController();
   var zutatenCtrl = TextEditingController();
   var beschreibungCtrl = TextEditingController();
+  final _picker = getItInjector<ImagePicker>();
+  late var db;
 
   @override
   void dispose() {
@@ -56,6 +64,21 @@ class _RezeptEditPageState extends State<RezeptEditPage> {
             padding: const EdgeInsets.all(24),
             child: Column(
               children: <Widget>[
+                InkWell(
+                  onTap: () {
+                    picker();
+                  },
+                  child: Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColor.primary),
+                      borderRadius: const BorderRadius.all(Radius.circular(25)),
+                    ),
+                    child: Center(
+                      child: widget.rezept.showImage(),
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: 40,
                   child: Padding(
@@ -172,7 +195,8 @@ class _RezeptEditPageState extends State<RezeptEditPage> {
                                     bewertung: int.parse(bewertungCtrl.text),
                                     zutaten:
                                         zutatenListeErstellen(zutatenCtrl.text),
-                                    beschreibung: beschreibungCtrl.text)
+                                    beschreibung: beschreibungCtrl.text,
+                                    image: widget.rezept.image)
                                 .toMap());
                         Navigator.pushAndRemoveUntil(
                           context,
@@ -195,5 +219,20 @@ class _RezeptEditPageState extends State<RezeptEditPage> {
 
   List<String> zutatenListeErstellen(String zutaten) {
     return zutaten.split(',');
+  }
+
+  Future<void> picker() async {
+    try {
+      final chooseimage = await _picker.pickImage(
+          source: ImageSource.gallery, maxHeight: 200, maxWidth: 363.4);
+      if (chooseimage == null) return;
+
+      widget.rezept.image = base64Encode(await chooseimage.readAsBytes());
+      setState(() {});
+    } on PlatformException catch (pe) {
+      print(pe);
+    } on Exception catch (e) {
+      print(e);
+    }
   }
 }

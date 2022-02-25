@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:kochbuchapp/getit/injector.dart';
 import 'package:localstore/localstore.dart';
 
@@ -9,6 +12,7 @@ class Rezept {
   int bewertung;
   List<String> zutaten;
   String beschreibung;
+  String image;
   Rezept({
     this.id,
     required this.name,
@@ -16,58 +20,22 @@ class Rezept {
     required this.bewertung,
     required this.zutaten,
     this.beschreibung = '',
+    this.image = '',
   });
-
-  Rezept copyWith({
-    String? name,
-    int? dauer,
-    int? bewertung,
-    List<String>? zutaten,
-    String? beschreibung,
-  }) {
-    return Rezept(
-      name: name ?? this.name,
-      dauer: dauer ?? this.dauer,
-      bewertung: bewertung ?? this.bewertung,
-      zutaten: zutaten ?? this.zutaten,
-      beschreibung: beschreibung ?? this.beschreibung,
-    );
-  }
 
   factory Rezept.fromMapEntry(MapEntry<String, dynamic> entry) {
     return Rezept(
-      id: entry.key.substring(
-          entry.key.substring(entry.key.indexOf('/') + 1).indexOf('/') +
-              2), // +2 weil 2. Argument von substring exklusiv
-      name: entry.value['name'] ?? '',
-      dauer: entry.value['dauer'] ?? 0,
-      bewertung: entry.value['bewertung'] ?? 0,
-      zutaten: (entry.value['zutaten'] as List<dynamic>)
-          .map((e) => e.toString())
-          .toList(),
-      beschreibung: entry.value['beschreibung'],
-    );
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is Rezept &&
-        other.name == name &&
-        other.dauer == dauer &&
-        other.bewertung == bewertung &&
-        listEquals(other.zutaten, zutaten) &&
-        other.beschreibung == beschreibung;
-  }
-
-  @override
-  int get hashCode {
-    return name.hashCode ^
-        dauer.hashCode ^
-        bewertung.hashCode ^
-        zutaten.hashCode ^
-        beschreibung.hashCode;
+        id: entry.key.substring(
+            entry.key.substring(entry.key.indexOf('/') + 1).indexOf('/') +
+                2), // +2 weil 2. Argument von substring exklusiv
+        name: entry.value['name'] ?? '',
+        dauer: entry.value['dauer'] ?? 0,
+        bewertung: entry.value['bewertung'] ?? 0,
+        zutaten: (entry.value['zutaten'] as List<dynamic>)
+            .map((e) => e.toString())
+            .toList(),
+        beschreibung: entry.value['beschreibung'],
+        image: entry.value['image']);
   }
 
   Map<String, dynamic> toMap() {
@@ -78,12 +46,17 @@ class Rezept {
       'bewertung': bewertung,
       'zutaten': zutaten,
       'beschreibung': beschreibung,
+      'image': image,
     };
   }
 
   @override
   String toString() {
-    return 'Rezept(id: $id, name: $name, dauer: $dauer, bewertung: $bewertung, zutaten: $zutaten, beschreibung: $beschreibung)';
+    return 'Rezept(id: $id, name: $name, dauer: $dauer, bewertung: $bewertung, zutaten: $zutaten, beschreibung: $beschreibung, image: $image)';
+  }
+
+  Image showImage() {
+    return Image.memory(base64Decode(image));
   }
 }
 
