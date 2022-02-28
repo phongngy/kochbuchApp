@@ -29,7 +29,12 @@ Widget RezeptCard(BuildContext context, Rezept rezept) {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(25),
-              child: Hero(tag: rezept.id!, child: rezept.showImage()),
+              child: Hero(
+                  tag: rezept.id!,
+                  child: Container(
+                      decoration:
+                          const BoxDecoration(color: AppColor.secondary),
+                      child: Center(child: rezept.showImage()))),
             ),
             ClipRRect(
               borderRadius: const BorderRadius.only(
