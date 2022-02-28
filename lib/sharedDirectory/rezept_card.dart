@@ -19,7 +19,6 @@ Widget RezeptCard(BuildContext context, Rezept rezept) {
     child: Card(
       child: InkWell(
         onTap: () {
-          //TODO: Hero-Animation einfügen
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Rezeptdetail(rezept)),
@@ -30,7 +29,7 @@ Widget RezeptCard(BuildContext context, Rezept rezept) {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(25),
-              child: rezept.showImage(),
+              child: Hero(tag: rezept.id!, child: rezept.showImage()),
             ),
             ClipRRect(
               borderRadius: const BorderRadius.only(

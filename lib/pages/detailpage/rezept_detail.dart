@@ -53,7 +53,7 @@ class Rezeptdetail extends StatelessWidget {
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                   color: AppColor.secondary),
-              child: _rezept.showImage(),
+              child: Hero(tag: _rezept.id!, child: _rezept.showImage()),
               width: double.infinity,
               height: 200,
             ),
