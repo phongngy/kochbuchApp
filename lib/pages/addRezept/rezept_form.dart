@@ -205,12 +205,12 @@ class _RezeptFormState extends State<RezeptForm> {
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      if (_imagedata.isEmpty) {
-                        setState(() {
-                          _imageset = true;
-                        });
-                      } else {
+                    if (_imagedata.isEmpty) {
+                      setState(() {
+                        _imageset = true;
+                      });
+                    } else {
+                      if (_formKey.currentState!.validate()) {
                         (Rezept(
                                 name: nameCtrl.text,
                                 dauer: int.parse(dauerCtrl.text),
