@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,7 +29,7 @@ class _RezeptEditPageState extends State<RezeptEditPage> {
   var zutatenCtrl = TextEditingController();
   var beschreibungCtrl = TextEditingController();
   final _picker = getItInjector<ImagePicker>();
-  late var db;
+  late Localstore db;
 
   @override
   void dispose() {
@@ -229,10 +228,14 @@ class _RezeptEditPageState extends State<RezeptEditPage> {
 
       widget.rezept.image = base64Encode(await chooseimage.readAsBytes());
       setState(() {});
-    } on PlatformException catch (pe) {
-      print(pe);
+    } on PlatformException {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Gallery Zugriff verhindert')),
+      );
     } on Exception catch (e) {
-      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Etwas ist schief gelaufen: $e')),
+      );
     }
   }
 }

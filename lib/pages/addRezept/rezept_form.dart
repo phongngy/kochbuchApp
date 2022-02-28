@@ -26,7 +26,7 @@ class _RezeptFormState extends State<RezeptForm> {
   var zutatenCtrl = TextEditingController();
   var beschreibungCtrl = TextEditingController();
   final _picker = getItInjector<ImagePicker>();
-  late var db;
+  late Localstore db;
   String _imagepath = '';
   String _imagedata = '';
 
@@ -66,7 +66,7 @@ class _RezeptFormState extends State<RezeptForm> {
             children: <Widget>[
               InkWell(
                 onTap: () {
-                  picker();
+                  picker(context);
                 },
                 child: Container(
                   height: 200,
@@ -244,7 +244,7 @@ class _RezeptFormState extends State<RezeptForm> {
     return zutaten.split(',');
   }
 
-  Future<void> picker() async {
+  Future<void> picker(BuildContext context) async {
     try {
       final chooseimage = await _picker.pickImage(
           source: ImageSource.gallery, maxHeight: 200, maxWidth: 363.4);
@@ -255,10 +255,14 @@ class _RezeptFormState extends State<RezeptForm> {
         _emptyimage = false;
         _imagepath = chooseimage.path;
       });
-    } on PlatformException catch (pe) {
-      print(pe);
+    } on PlatformException {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Gallery Zugriff verhindert')),
+      );
     } on Exception catch (e) {
-      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Etwas ist schief gelaufen: $e')),
+      );
     }
   }
 }
