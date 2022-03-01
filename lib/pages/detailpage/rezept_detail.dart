@@ -17,7 +17,7 @@ class Rezeptdetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_rezept.name),
+        title: const Text('Details'),
         actions: [
           IconButton(
             onPressed: () {
