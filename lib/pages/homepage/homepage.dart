@@ -37,7 +37,7 @@ class _HomepageState extends State<Homepage> {
         body: ListView.builder(
             padding: const EdgeInsets.all(8),
             shrinkWrap: true,
-            itemCount: dbrezeptliste.isEmpty ? 0 : dbrezeptliste.length,
+            itemCount: dbrezeptliste.length,
             itemBuilder: (context, index) {
               return GestureDetector(
                   onDoubleTap: () {
