@@ -22,8 +22,10 @@ class _NavigatorpageState extends State<Navigatorpage> {
   final db = getItInjector<Localstore>();
   var random = Random();
   List<Rezept> dbrezeptliste = [];
-
   Rezept? zufaelligesRezept;
+
+  double _height = 0;
+  double _width = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,8 @@ class _NavigatorpageState extends State<Navigatorpage> {
             Homepage(
               db: getItInjector<Localstore>(),
             ),
-            Randompage(rezept: zufaelligesRezept),
+            Randompage(
+                rezept: zufaelligesRezept, height: _height, width: _width),
           ],
         ),
         bottomNavigationBar: BottomAppBar(
@@ -93,8 +96,17 @@ class _NavigatorpageState extends State<Navigatorpage> {
                 tooltip: 'Rezept generieren',
                 onPressed: () async {
                   try {
+                    setState(() {
+                      _height = 0;
+                      _width = 0;
+                    });
+                    //ermöglicht Animation (selbe Dauer!)
+                    await Future.delayed(const Duration(milliseconds: 300));
                     zufaelligesRezept = await rezeptgenerieren();
-                    setState(() {});
+                    setState(() {
+                      _height = 200.0;
+                      _width = double.infinity;
+                    });
                   } on Exception catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         backgroundColor: AppColor.secondary,

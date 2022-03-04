@@ -5,7 +5,12 @@ import 'package:kochbuchapp/sharedDirectory/rezept_card.dart';
 class Randompage extends StatefulWidget {
   Rezept? rezept;
 
-  Randompage({Key? key, this.rezept}) : super(key: key);
+  double height;
+
+  double width;
+
+  Randompage({Key? key, this.rezept, required this.height, required this.width})
+      : super(key: key);
 
   @override
   State<Randompage> createState() => _RandompageState();
@@ -21,7 +26,13 @@ class _RandompageState extends State<Randompage> {
       body: Center(
           child: widget.rezept == null
               ? Container()
-              : RezeptCard(context, widget.rezept!)),
+              : AnimatedSize(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeOutSine,
+                  child: SizedBox(
+                      height: widget.height,
+                      width: widget.width,
+                      child: RezeptCard(context, widget.rezept!)))),
     );
   }
 }
