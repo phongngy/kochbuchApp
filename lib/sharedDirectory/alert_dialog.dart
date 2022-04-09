@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kochbuchapp/classes/rezept.dart';
 import 'package:kochbuchapp/pages/Navigation/navigatorpage.dart';
+import 'package:kochbuchapp/provider/provider_rezept.dart';
+import 'package:provider/provider.dart';
 
 // ignore: non_constant_identifier_names
 Widget DeleteAlertDialog(BuildContext context, Rezept rezept) {
@@ -15,7 +17,8 @@ Widget DeleteAlertDialog(BuildContext context, Rezept rezept) {
           child: const Text('Nein')),
       TextButton(
           onPressed: () {
-            rezept.deleteRezept();
+            Provider.of<ProviderRezept>(context, listen: false)
+                .dbloeschenRezeptdata(r: rezept);
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const Navigatorpage()),

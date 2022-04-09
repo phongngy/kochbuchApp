@@ -7,7 +7,9 @@ import 'package:kochbuchapp/classes/rezept.dart';
 import 'package:kochbuchapp/fixValues/appcolors.dart';
 import 'package:kochbuchapp/getit/injector.dart';
 import 'package:kochbuchapp/pages/Navigation/navigatorpage.dart';
+import 'package:kochbuchapp/provider/provider_rezept.dart';
 import 'package:localstore/localstore.dart';
+import 'package:provider/provider.dart';
 
 class RezeptEditPage extends StatefulWidget {
   Rezept rezept;
@@ -185,18 +187,16 @@ class _RezeptEditPageState extends State<RezeptEditPage> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        widget.db
-                            .collection('alleRezepte')
-                            .doc(widget.rezept.id)
-                            .set(Rezept(
-                                    name: nameCtrl.text,
-                                    dauer: int.parse(dauerCtrl.text),
-                                    bewertung: int.parse(bewertungCtrl.text),
-                                    zutaten:
-                                        zutatenListeErstellen(zutatenCtrl.text),
-                                    beschreibung: beschreibungCtrl.text,
-                                    image: widget.rezept.image)
-                                .toMap());
+                        Provider.of<ProviderRezept>(context, listen: false)
+                            .dbBearbeitenRezeptdata(
+                          r: widget.rezept,
+                          name: nameCtrl.text,
+                          dauer: int.parse(dauerCtrl.text),
+                          bewertung: int.parse(bewertungCtrl.text),
+                          zutaten: zutatenCtrl.text,
+                          beschreibung: beschreibungCtrl.text,
+                          image: widget.rezept.image,
+                        );
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
@@ -216,10 +216,11 @@ class _RezeptEditPageState extends State<RezeptEditPage> {
     );
   }
 
+/*
   List<String> zutatenListeErstellen(String zutaten) {
     return zutaten.split(',');
   }
-
+*/
   Future<void> picker() async {
     try {
       final chooseimage = await _picker.pickImage(

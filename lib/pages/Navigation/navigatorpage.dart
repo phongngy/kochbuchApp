@@ -6,8 +6,11 @@ import 'package:kochbuchapp/pages/random/random.dart';
 import 'package:kochbuchapp/pages/Navigation/navigation_border.dart';
 import 'package:kochbuchapp/pages/addRezept/add_rezept.dart';
 import 'package:kochbuchapp/getit/injector.dart';
+import 'package:kochbuchapp/provider/provider_rezept.dart';
 import 'package:localstore/localstore.dart';
 import 'dart:math';
+
+import 'package:provider/provider.dart';
 
 class Navigatorpage extends StatefulWidget {
   const Navigatorpage({Key? key}) : super(key: key);
@@ -102,7 +105,10 @@ class _NavigatorpageState extends State<Navigatorpage> {
                     });
                     //ermöglicht Animation (selbe Dauer!)
                     await Future.delayed(const Duration(milliseconds: 300));
-                    zufaelligesRezept = await rezeptgenerieren();
+                    zufaelligesRezept = await Provider.of<ProviderRezept>(
+                            context,
+                            listen: false)
+                        .rezeptgenerieren();
                     setState(() {
                       _height = 200.0;
                       _width = double.infinity;
@@ -118,7 +124,7 @@ class _NavigatorpageState extends State<Navigatorpage> {
         floatingActionButtonLocation:
             FloatingActionButtonLocation.centerDocked);
   }
-
+/*
   Future<Rezept> rezeptgenerieren() async {
     final documents = await db.collection('alleRezepte').get();
     if (documents != null) {
@@ -128,5 +134,5 @@ class _NavigatorpageState extends State<Navigatorpage> {
     } else {
       throw Exception('Keine Rezepte vorhanden');
     }
-  }
+  }*/
 }

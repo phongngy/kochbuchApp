@@ -8,7 +8,9 @@ import 'package:kochbuchapp/classes/rezept.dart';
 import 'package:kochbuchapp/fixValues/appcolors.dart';
 import 'package:kochbuchapp/getit/injector.dart';
 import 'package:kochbuchapp/pages/Navigation/navigatorpage.dart';
+import 'package:kochbuchapp/provider/provider_rezept.dart';
 import 'package:localstore/localstore.dart';
+import 'package:provider/provider.dart';
 
 class RezeptForm extends StatefulWidget {
   const RezeptForm({Key? key}) : super(key: key);
@@ -211,15 +213,15 @@ class _RezeptFormState extends State<RezeptForm> {
                       });
                     } else {
                       if (_formKey.currentState!.validate()) {
-                        (Rezept(
+                        Provider.of<ProviderRezept>(context, listen: false)
+                            .dbAddRezeptdata(Rezept(
                                 name: nameCtrl.text,
                                 dauer: int.parse(dauerCtrl.text),
                                 bewertung: int.parse(bewertungCtrl.text),
                                 zutaten:
                                     zutatenListeErstellen(zutatenCtrl.text),
                                 beschreibung: beschreibungCtrl.text,
-                                image: _imagedata))
-                            .saveRezept();
+                                image: _imagedata));
 
                         Navigator.pushAndRemoveUntil(
                           context,
